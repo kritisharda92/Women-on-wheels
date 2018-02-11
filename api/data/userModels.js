@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true
-    }
+    },
+    fav_place : [String]
 });
 
 mongoose.model('User', userSchema, 'Authentication');
