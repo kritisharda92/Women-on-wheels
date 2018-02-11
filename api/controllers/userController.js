@@ -22,14 +22,17 @@ var login = function (req,res) {
                     console.log("Wrong username or password");
                 }
                 else {
-                    var _name = docs.map(function(a){return a.name});
-                    var _email = docs.map(function(a){return a.email});
-                    var jsonResponse = { name : _name, email : _email };
+                    console.log(docs);
+                    // var _name = docs.map(function(a){return a.name});
+                    // var _email = docs.map(function(a){return a.email});
+                    // var jsonResponse = { name : _name, email : _email };
+                    docs[0]["password"]="***";
                     console.log("LOGGED IN!! user exists!");
+                    console.log(docs[0]);
                 }
                 res
                     .status(400)
-                    .json(jsonResponse)
+                    .json(docs[0])
             }
         })
 };
@@ -59,7 +62,7 @@ var signUp = function (req,res) {
 
                     },function (err,user) {
 
-                        var jsonResponse = { name : req.body.name, email : req.body.email };
+
                         if(err){
                             console.log("Error occurred in creation! "+ err);
                             res
@@ -68,9 +71,10 @@ var signUp = function (req,res) {
                         }
                         else{
                             console.log("User Added!");
+                            user["password"]="***";
                             res
                                 .status(200)
-                                .json(jsonResponse);
+                                .json(user);
                         }
                     });
 
