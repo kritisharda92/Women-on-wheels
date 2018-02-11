@@ -14,8 +14,8 @@ router
     .get(user.getSuggestions);
 
 router
-    .route('/users/:userID/:city/favorite')
-    .get(user.saveSuggestions);
+    .route('/users/favorite')
+    .post(user.saveSuggestions);
 
 
 router

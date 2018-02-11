@@ -70,40 +70,54 @@ module.exports.saveSuggestions = function (req,res) {
 
     console.log("Update fav place");
 
-    var userId = req.params.userID;
-    var city = req.params.city;
+    var req_email = req.body.email;
+    var city = req.body.city;
 
     User
-        .find({name:userId}) //mood.find().limit(25);
+        .find({email:req_email}) //mood.find().limit(25);
         .update({$addToSet: { fav_place: city }})
-        // update(
-        //     {name: userId},
-        //     {$addToSet: { fav_place: city } }
-        // )
-        .exec(function (err, docs) {
-            var response = {
-                "status": 200,
-                "message": "Success in getting suggested places"
-            };
+        .exec(function (err, user) {
+            if(err){
+                console.log("Error occurred in creation! "+err);
+                res
+                    .status(500)
+                    .json({"message":"Cannot find the user details "});
 
-            if (err) {
-                console.log("Error in find");
-                response.status = 500;
-                response.message = {"message": "Error occurred in find"}
             }
-            else if (!docs) {
-                console.log("Record not found this mood");
-                response.status = 404;
-                response.message = {"message": "Places not found"}
-            }
-            else {
-                console.log("Locations Found : ", docs);
-                response.message=docs;
-            }
+            else{
+                console.log("User Updated!");
+                User
+                    .find({$and:[{fav_place:city},{email:{$ne:req_email}}]})
+                    .exec(function (err, docs) {
+                        var response = {
+                            "status": 200,
+                            "message": "Success in getting suggested places"
+                        };
 
-            res
-                .status(response.status)
-                .json(response.message)
+
+                if (err) {
+                    console.log("Error in find");
+                    response.status = 500;
+                    response.message = {"message": "Error occurred in find"}
+                }
+                else if (!docs) {
+                    console.log("Record not found this mood");
+                    response.status = 404;
+                    response.message = {"message": "Places not found"}
+                }
+                else {
+                    console.log("People Found : ", docs);
+                    //docs=JSON.parse(docs);
+                    var result=docs.map(function(a) {return a.name;});
+                    response.message = result;
+                }
+
+                res
+                    .status(response.status)
+                    .json(response.message)
+            })
+
+            }
         })
 };
 
