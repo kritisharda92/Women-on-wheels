@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Sugg = mongoose.model('Suggestions');
 
 module.exports.postLoginDetails = function (req,res) {
     console.log("Reached login post ");
@@ -33,10 +34,10 @@ module.exports.getSuggestions = function (req,res) {
     console.log("Get suggestions for mood");
 
     var userId = req.params.userID;
-    var mood = req.params.mood;
+    var res_mood = req.params.mood;
 
-    User
-        .find(mood)
+    Sugg
+        .find({mood:res_mood}) //mood.find().limit(25);
         .exec(function (err, docs) {
             var response = {
                 "status": 200,
@@ -55,6 +56,7 @@ module.exports.getSuggestions = function (req,res) {
             }
             else {
                 console.log("Locations Found : ", docs);
+                response.message=docs;
             }
 
             res
