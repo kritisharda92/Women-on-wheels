@@ -11,7 +11,8 @@ var userSchema = new mongoose.Schema({
         required : true
     },
     isExistingUser : {
-        type : Boolean
+        type : Boolean,
+        required : true
     },
     password : {
         type : String,

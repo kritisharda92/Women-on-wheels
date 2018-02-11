@@ -1,30 +1,88 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
+var login = function (req,res) {
+    console.log("reaached login!");
+    User
+        .find({email:req.body.email, password:req.body.password})
+        .exec(function (err, docs) {
+            if (err) {
+                console.log("Error in find");
+                res
+                    .status(500)
+                    .json({"message": "Error occured in find user!"})
+            }
+            else {
+                console.log(docs);
+                if (docs && docs.length == 0) {
+                    console.log("Wrong username or password");
+                }
+                else {
+                    console.log("LOGGED IN!! user exists!");
+                }
+                res
+                    .status(400)
+                    .json(docs)
+            }
+        })
+};
+
+var signUp = function (req,res) {
+    console.log("reached signup!");
+    User
+        .find({email:req.body.email})
+        .exec(function (err, docs) {
+            if(err){
+                console.log("Error in find");
+                res
+                    .status(500)
+                    .json({"message":"Error occured in find user!"})
+            }
+        else {
+                console.log(docs);
+                if(docs && docs.length==0){
+                    console.log("new user");
+                    User.create({
+                        name : req.body.name,
+                        email : req.body.email,
+                        isExistingUser : true,
+                        password : req.body.password
+
+                    },function (err,user) {
+                        if(err){
+                            console.log("Error occurred in creation! "+ err);
+                            res
+                                .status(500)
+                                .json({"message":"Cannot add the user details because Error occurred in creation!"});
+                        }
+                        else{
+                            console.log("User Added!");
+                            res
+                                .status(200)
+                                .json(user);
+                        }
+                    });
+
+                }
+                else{
+                    console.log("user exists!");
+                    res
+                        .status(400)
+                        .json(docs)
+
+                }
+        }
+    })
+};
 module.exports.postLoginDetails = function (req,res) {
     console.log("Reached login post ");
-    User.create({
-        name : req.body.name,
-        email : req.body.email,
-        isExistingUser : req.body.existingUser,
-        password : req.body.password
-
-    },function (err,user) {
-        if(err){
-            console.log("Error occurred in creation! "+err);
-            res
-                .status(500)
-                .json({"message":"Cannot add the user details because Error occurred in creation!"});
-
-        }
-        else{
-            console.log("User Added!");
-            res
-                .status(200)
-                .json(user);
-
-        }
-    });
+    var isTrue = (req.body.isExistingUser.toLowerCase() === 'true');
+    console.log(isTrue);
+    if(isTrue)
+        login(req,res);
+    else signUp(req,res);
+    // res
+    //     .json({"message":"Success!"})
 };
 
 
