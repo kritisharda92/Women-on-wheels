@@ -1,0 +1,21 @@
+.location-row{
+    clear: both;
+    width: 100%;
+    border: 1px solid grey;
+    margin-bottom: 5px;
+    height: 120px;
+}
+
+.location-image{
+    float: left;
+}
+.location-details{
+    float: left;
+    margin-left: 2%
+}
+
+.location-details-state{
+    color: #702779;
+    font-weight: bold;
+    font-size: large
+}

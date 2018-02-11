@@ -1,0 +1,14 @@
+.page-not-found-container{
+    margin-left:2%
+ }
+ .error-title{
+     font-weight:bold;
+     font-size:14pt;
+     color:#702779
+ }
+ .error-desc{
+     color:#7F7972;
+     font-size:12pt;
+     width:90%
+ }
+ 

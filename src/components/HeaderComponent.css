@@ -1,0 +1,36 @@
+.header-component{
+    height: 100px;
+    color: #702779;
+    font-family: fantasy;
+    top: 0px;
+    padding: 0px;
+    text-align: center;
+
+}
+.header-component-content{
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+
+.header-title-abbr{
+    font-size: 100px;
+    padding: 0px !important;
+    margin: 0px !important;
+    /* height: 100%; */
+    /* position: absolute;*/
+}
+
+.header-image{
+    width: 6%;
+    
+}
+
+.header-title{
+    margin-top:2%;
+    padding: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    color: black;
+    font-weight: bolder
+}

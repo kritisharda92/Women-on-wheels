@@ -1,0 +1,3 @@
+export const SET_CUSTOMER = 'SET_CUSTOMER';
+export const SET_TYPE_OF_LOGIN = 'SET_TYPE_OF_LOGIN';
+export const SET_LOCATIONS = 'SET_LOCATIONS'
