@@ -37,3 +37,4 @@ process.once('SIGUSR2',function () {
 });
 
 require('./userModels');
+require('./suggestion');

@@ -13,6 +13,10 @@ router
     .route('/users/:mood')
     .get(user.getSuggestions);
 
+router
+    .route('/users/:userID/:city/favorite')
+    .get(user.saveSuggestions);
+
 
 router
     .route('/user/:userID/:suggestionID/location')
