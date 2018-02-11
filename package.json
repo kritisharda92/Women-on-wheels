@@ -1,0 +1,33 @@
+{
+  "name": "womenonwheels",
+  "version": "1.0.0",
+  "description": "An application that suggests travel locations for women travellers according to their preferences, moods, safety etc ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyaajoshi/WicHacks-WOW.git"
+  },
+  "keywords": [
+    "wow",
+    "WomenOnWheels",
+    "Travel",
+    "women",
+    "safe"
+  ],
+  "author": "sshk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shreyaajoshi/WicHacks-WOW/issues"
+  },
+  "homepage": "https://github.com/shreyaajoshi/WicHacks-WOW#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongo": "^0.1.0",
+    "mongoclient": "^1.0.3",
+    "mongoose": "^5.0.4"
+  }
+}
