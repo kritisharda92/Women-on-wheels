@@ -2,30 +2,100 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Sugg = mongoose.model('Suggestions');
 
+var login = function (req,res) {
+    console.log("Reached login!");
+    User
+        .find({
+            email : req.body.email,
+            password:req.body.password
+        })
+        .exec( function (err, docs) {
+            if (err) {
+                console.log("Error in finding the user");
+                res
+                    .status(500)
+                    .json({"message": "Error occured in finding user!"})
+            }
+            else {
+                if (docs && docs.length == 0) {
+                    var jsonResponse = {"message":"TRY AGAIN! Wrong username or password."};
+                    console.log("Wrong username or password");
+                }
+                else {
+                    console.log(docs);
+                    // var _name = docs.map(function(a){return a.name});
+                    // var _email = docs.map(function(a){return a.email});
+                    // var jsonResponse = { name : _name, email : _email };
+                    docs[0]["password"]="***";
+                    console.log("LOGGED IN!! user exists!");
+                    console.log(docs[0]);
+                }
+                res
+                    .status(400)
+                    .json(docs[0])
+            }
+        })
+};
+
+var signUp = function (req,res) {
+    console.log("Reached signup!");
+    User
+        .find({
+            email : req.body.email
+        })
+        .exec(function (err, docs) {
+            if(err){
+                console.log("Error in find");
+                res
+                    .status(500)
+                    .json({"message":"Error occured in find user!"})
+            }
+        else {
+                console.log(docs);
+                if(docs && docs.length==0){
+                    console.log("new user");
+                    User.create({
+                        name : req.body.name,
+                        email : req.body.email,
+                        isExistingUser : true,
+                        password : req.body.password
+
+                    },function (err,user) {
+
+
+                        if(err){
+                            console.log("Error occurred in creation! "+ err);
+                            res
+                                .status(500)
+                                .json({"message":"Cannot add the user details because Error occurred in creation!"});
+                        }
+                        else{
+                            console.log("User Added!");
+                            user["password"]="***";
+                            res
+                                .status(200)
+                                .json(user);
+                        }
+                    });
+
+                }
+                else{
+                    console.log("user exists!");
+                    res
+                        .status(400)
+                        .json({"message":"This email already exists!"})
+
+                }
+        }
+    })
+};
 module.exports.postLoginDetails = function (req,res) {
     console.log("Reached login post ");
-    User.create({
-        name : req.body.name,
-        email : req.body.email,
-        isExistingUser : req.body.existingUser,
-        password : req.body.password
-
-    },function (err,user) {
-        if(err){
-            console.log("Error occurred in creation! "+err);
-            res
-                .status(500)
-                .json({"message":"Cannot add the user details because Error occurred in creation!"});
-
-        }
-        else{
-            console.log("User Added!");
-            res
-                .status(200)
-                .json(user);
-
-        }
-    });
+    var isTrue = (req.body.isExistingUser.toLowerCase() === 'true');
+    console.log(isTrue);
+    if(isTrue)
+        login(req,res);
+    else signUp(req,res);
 };
 
 
@@ -76,14 +146,19 @@ module.exports.saveSuggestions = function (req,res) {
     User
         .find({email:req_email}) //mood.find().limit(25);
         .update({$addToSet: { fav_place: city }})
-        .exec(function (err, user) {
-            if(err){
-                console.log("Error occurred in creation! "+err);
-                res
-                    .status(500)
-                    .json({"message":"Cannot find the user details "});
+        // update(
+        //     {name: userId},
+        //     {$addToSet: { fav_place: city } }
+        // )
+        .exec(function (err, docs) {
 
-            }
+            var response = {
+                "status": 200,
+                "message": "Success in getting suggested places"
+            };
+
+
+            
             else{
                 console.log("User Updated!");
                 User
